@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0          # Wybór wersji obrazu MySQL
+    container_name: mysql_db   # Nazwa kontenera
+    environment:
+      MYSQL_ROOT_PASSWORD: zaq1@WSX3   # Hasło dla użytkownika root
+      MYSQL_DATABASE: rest_rpg          # Nazwa domyślnej bazy danych
+      MYSQL_USER: my_user                  # Nazwa użytkownika
+      MYSQL_PASSWORD: my_password          # Hasło dla użytkownika
+    ports:
+      - "3306:3306"                        # Mapowanie portu, MySQL działa na porcie 3306
+    volumes:
+      - db_data:/var/lib/mysql             # Przechowywanie danych MySQL na dysku hosta
+
+volumes:
+  db_data:

@@ -1,0 +1,26 @@
+server.port: 8082
+spring:
+  application.name: auth
+  datasource:
+    password: zaq1@WSX3
+    username: root
+    url: jdbc:mysql://localhost:3306/auth?createDatabaseIfNotExist=true&autoReconnect=true&useSSL=false
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: validate
+    database: mysql
+  sql:
+    init:
+      platform: mysql
+server:
+  error:
+    include-message: always
+token:
+  refreshTokenExpirationMs: '604800000'
+  accessTokenExpirationMs: '86400000'
+  refreshTokenCookieName: jwt
+  secretKey: 5267556B58703273357638792F423F4528482B4D6251655368566D5971337436
+logging.level.org.springframework.security: DEBUG
