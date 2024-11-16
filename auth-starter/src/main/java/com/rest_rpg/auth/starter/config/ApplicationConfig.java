@@ -1,4 +1,4 @@
-package com.rest_rpg.auth.config;
+package com.rest_rpg.auth.starter.config;
 
 import com.rest_rpg.user.feign.UserInternalClient;
 import lombok.RequiredArgsConstructor;

@@ -19,18 +19,14 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.rest_rpg.user</groupId>
-            <artifactId>user-feign</artifactId>
-            <version>${rest_rpg.user.version}</version>
+            <groupId>com.rest_rpg.auth</groupId>
+            <artifactId>auth-starter</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -47,24 +43,6 @@
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-mysql</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-api</artifactId>
-            <version>${jsonwebtoken.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-impl</artifactId>
-            <version>${jsonwebtoken.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt-jackson</artifactId>
-            <version>${jsonwebtoken.version}</version>
-            <scope>runtime</scope>
         </dependency>
 
         <dependency>
@@ -98,4 +76,13 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>

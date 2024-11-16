@@ -1,6 +1,6 @@
-package com.rest_rpg.auth.service;
+package com.rest_rpg.auth.starter.service;
 
-import com.rest_rpg.auth.config.TokenProperties;
+import com.rest_rpg.auth.starter.config.TokenProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

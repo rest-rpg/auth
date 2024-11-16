@@ -1,4 +1,4 @@
-package com.rest_rpg.auth.config;
+package com.rest_rpg.auth.starter.config;
 
 import lombok.Getter;
 import lombok.Setter;

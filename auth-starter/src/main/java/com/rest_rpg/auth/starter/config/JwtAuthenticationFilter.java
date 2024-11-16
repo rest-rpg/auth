@@ -1,6 +1,6 @@
-package com.rest_rpg.auth.config;
+package com.rest_rpg.auth.starter.config;
 
-import com.rest_rpg.auth.service.JwtService;
+import com.rest_rpg.auth.starter.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

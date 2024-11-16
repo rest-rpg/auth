@@ -1,18 +1,17 @@
 version: '3.8'
-
 services:
-  mysql:
-    image: mysql:8.0          # Wybór wersji obrazu MySQL
-    container_name: mysql_db   # Nazwa kontenera
+  db:
+    image: mysql:8.0
+    cap_add:
+      - SYS_NICE
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: zaq1@WSX3   # Hasło dla użytkownika root
-      MYSQL_DATABASE: rest_rpg          # Nazwa domyślnej bazy danych
-      MYSQL_USER: my_user                  # Nazwa użytkownika
-      MYSQL_PASSWORD: my_password          # Hasło dla użytkownika
+      - MYSQL_ROOT_PASSWORD=zaq1@WSX3
     ports:
-      - "3306:3306"                        # Mapowanie portu, MySQL działa na porcie 3306
+      - '3306:3306'
     volumes:
-      - db_data:/var/lib/mysql             # Przechowywanie danych MySQL na dysku hosta
-
+      - db:/var/lib/mysql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
 volumes:
-  db_data:
+  db:
+    driver: local

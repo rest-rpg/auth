@@ -1,4 +1,4 @@
-package com.rest_rpg.auth.config;
+package com.rest_rpg.auth.starter.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -33,7 +33,7 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/refresh-token/**", "/swagger-ui/**", "/v3/api-docs/**", "/error").permitAll()
+                        .requestMatchers("/auth/**", "/user/**", "/refresh-token/**", "/swagger-ui/**", "/v3/api-docs/**", "/error").permitAll()
                         .requestMatchers(HttpMethod.GET, "character/image/{characterArtwork}", "character/thumbnail/{characterArtwork}").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS).permitAll()
                         .anyRequest().authenticated()

@@ -3,6 +3,7 @@ package com.rest_rpg.auth.service;
 import com.rest_rpg.auth.exception.AuthException;
 import com.rest_rpg.auth.model.dto.AuthenticationRequest;
 import com.rest_rpg.auth.model.dto.AuthenticationResponse;
+import com.rest_rpg.auth.starter.service.JwtService;
 import com.rest_rpg.user.api.model.UserAuth;
 import com.rest_rpg.user.feign.UserInternalClient;
 import jakarta.servlet.http.HttpServletResponse;
