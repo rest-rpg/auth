@@ -1,5 +1,7 @@
 package com.rest_rpg.auth.starter.config;
 
+import com.rest_rpg.auth.starter.model.UserAuth;
+import com.rest_rpg.user.api.model.UserWithPassword;
 import com.rest_rpg.user.feign.UserInternalClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +22,10 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return userInternalClient::getUserByUsername;
+        return username -> {
+            UserWithPassword user = userInternalClient.getUserByUsername(username);
+            return new UserAuth(user.id(), user.username(), user.password(), user.email(), user.enabled(), user.role());
+        };
     }
 
     @Bean

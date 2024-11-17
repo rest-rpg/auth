@@ -4,7 +4,7 @@ import com.rest_rpg.auth.exception.AuthException;
 import com.rest_rpg.auth.model.dto.AuthenticationRequest;
 import com.rest_rpg.auth.model.dto.AuthenticationResponse;
 import com.rest_rpg.auth.starter.service.JwtService;
-import com.rest_rpg.user.api.model.UserAuth;
+import com.rest_rpg.user.api.model.UserWithPassword;
 import com.rest_rpg.user.feign.UserInternalClient;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
@@ -30,7 +30,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse authenticate(@NotNull AuthenticationRequest request,
-                                               HttpServletResponse response) {
+                                               @NotNull HttpServletResponse response) {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -41,25 +41,27 @@ public class AuthenticationService {
             throw new AuthException();
         }
 
-        UserAuth user = userInternalClient.getUserByUsername(request.getUsername());
+        UserWithPassword user = userInternalClient.getUserByUsername(request.getUsername());
 
         return createJwtResponse(user, response);
     }
 
-    private AuthenticationResponse createJwtResponse(UserAuth user, HttpServletResponse response) {
-        var jwtToken = jwtService.generateToken(user.getUsername());
+    private AuthenticationResponse createJwtResponse(@NotNull UserWithPassword user,
+                                                     @NotNull HttpServletResponse response) {
+        var jwtToken = jwtService.generateToken(user.username());
 
         sendRefreshToken(user, response);
 
         return AuthenticationResponse.builder()
-                .username(user.getUsername())
+                .username(user.username())
                 .token(jwtToken)
-                .role(user.getRole())
+                .role(user.role())
                 .build();
     }
 
-    private void sendRefreshToken(@NotNull UserAuth user, HttpServletResponse response) {
-        ResponseCookie springCookie = refreshTokenService.createRefreshToken(user.getId());
+    private void sendRefreshToken(@NotNull UserWithPassword user,
+                                  @NotNull HttpServletResponse response) {
+        ResponseCookie springCookie = refreshTokenService.createRefreshToken(user.id());
         response.setHeader(HttpHeaders.SET_COOKIE, springCookie.toString());
     }
 }
