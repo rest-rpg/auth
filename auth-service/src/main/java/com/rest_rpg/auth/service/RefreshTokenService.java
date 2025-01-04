@@ -2,17 +2,18 @@ package com.rest_rpg.auth.service;
 
 import com.rest_rpg.auth.exception.JwtExpiredException;
 import com.rest_rpg.auth.exception.RefreshTokenNotFoundException;
-import com.rest_rpg.auth.model.dto.AuthenticationResponse;
 import com.rest_rpg.auth.starter.config.TokenProperties;
 import com.rest_rpg.auth.model.RefreshToken;
 import com.rest_rpg.auth.repository.RefreshTokenRepo;
 import com.rest_rpg.auth.starter.service.JwtService;
 import com.rest_rpg.user.api.model.UserLite;
 import com.rest_rpg.user.feign.UserInternalClient;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.openapitools.model.AuthenticationResponse;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -37,7 +38,7 @@ public class RefreshTokenService {
         UserLite user = userInternalClient.getUserById(refreshToken.getUserId());
         String accessToken = jwtService.generateToken(user.username());
 
-        return new AuthenticationResponse(user.username(), accessToken, user.role());
+        return new AuthenticationResponse(user.username(), accessToken, user.role().toString());
     }
 
     public ResponseCookie logout(@NotEmpty String jwt) {
@@ -75,7 +76,7 @@ public class RefreshTokenService {
                 .build();
     }
 
-    private void verifyExpiration(@NotNull RefreshToken token) {
+    private void verifyExpiration(@NotNull @Valid RefreshToken token) {
         if (token.getExpiryDate().compareTo(Instant.now()) < 0) {
             throw new JwtExpiredException();
         }

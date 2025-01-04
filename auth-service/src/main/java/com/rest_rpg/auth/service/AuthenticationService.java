@@ -1,14 +1,15 @@
 package com.rest_rpg.auth.service;
 
 import com.rest_rpg.auth.exception.AuthException;
-import com.rest_rpg.auth.model.dto.AuthenticationRequest;
-import com.rest_rpg.auth.model.dto.AuthenticationResponse;
 import com.rest_rpg.auth.starter.service.JwtService;
 import com.rest_rpg.user.api.model.UserWithPassword;
 import com.rest_rpg.user.feign.UserInternalClient;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.openapitools.model.AuthenticationRequest;
+import org.openapitools.model.AuthenticationResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,7 +30,7 @@ public class AuthenticationService {
     private final RefreshTokenService refreshTokenService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse authenticate(@NotNull AuthenticationRequest request,
+    public AuthenticationResponse authenticate(@NotNull @Valid AuthenticationRequest request,
                                                @NotNull HttpServletResponse response) {
         try {
             authenticationManager.authenticate(
@@ -52,11 +53,7 @@ public class AuthenticationService {
 
         sendRefreshToken(user, response);
 
-        return AuthenticationResponse.builder()
-                .username(user.username())
-                .token(jwtToken)
-                .role(user.role())
-                .build();
+        return new AuthenticationResponse(user.username(), jwtToken, user.role().toString());
     }
 
     private void sendRefreshToken(@NotNull UserWithPassword user,

@@ -1,0 +1,112 @@
+openapi: 3.0.3
+info:
+  title: Auth API
+  description: API for RPG REST auth module.
+  version: '1.0'
+servers:
+  - url: http://localhost:8082
+tags:
+  - name: authentication
+    description: Authentication API
+  - name: refresh-token
+    description: Refresh token API
+paths:
+  /auth/authenticate:
+    post:
+      summary: Authenticates user.
+      operationId: authenticate
+      tags:
+        - authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthenticationRequest'
+      responses:
+        '200':
+          description: Authentication response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationResponse'
+  /auth/refresh-token/refresh:
+    get:
+      summary: Refreshes JWT.
+      operationId: refreshToken
+      tags:
+        - refresh-token
+      parameters:
+        - name: jwt
+          in: cookie
+          required: true
+          description: Jwt cookie
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Authentication response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationResponse'
+  /auth/refresh-token/logout:
+    get:
+      summary: Logouts user.
+      operationId: logoutUser
+      tags:
+        - refresh-token
+      parameters:
+        - name: jwt
+          in: cookie
+          required: true
+          description: Jwt cookie
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No content
+components:
+  schemas:
+    ErrorCodes:
+      type: string
+      enum:
+        - AUTH_EXCEPTION
+        - JWT_EXPIRED
+        - REFRESH_TOKEN_NOT_FOUND
+    AuthenticationRequest:
+      description: Authentication request
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          description: Username
+          x-field-extra-annotation: "@jakarta.validation.constraints.NotBlank"
+          type: string
+        password:
+          description: Password
+          x-field-extra-annotation: "@jakarta.validation.constraints.NotBlank"
+          type: string
+          format: password
+    AuthenticationResponse:
+      description: Authentication response
+      type: object
+      required:
+        - username
+        - token
+        - role
+      properties:
+        username:
+          description: Username
+          x-field-extra-annotation: "@jakarta.validation.constraints.NotBlank"
+          type: string
+        token:
+          description: JWT
+          x-field-extra-annotation: "@jakarta.validation.constraints.NotBlank"
+          type: string
+        role:
+          description: User role
+          x-field-extra-annotation: "@jakarta.validation.constraints.NotBlank"
+          type: string

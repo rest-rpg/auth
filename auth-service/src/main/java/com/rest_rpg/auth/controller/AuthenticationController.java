@@ -1,30 +1,25 @@
 package com.rest_rpg.auth.controller;
 
-import com.rest_rpg.auth.model.dto.AuthenticationRequest;
-import com.rest_rpg.auth.model.dto.AuthenticationResponse;
 import com.rest_rpg.auth.service.AuthenticationService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.openapitools.api.AuthenticationApi;
+import org.openapitools.model.AuthenticationRequest;
+import org.openapitools.model.AuthenticationResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/auth")
 @RequiredArgsConstructor
 @Validated
-public class AuthenticationController {
+public class AuthenticationController implements AuthenticationApi {
 
     private final AuthenticationService service;
+    private final HttpServletResponse httpServletResponse;
 
-    @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(
-            @RequestBody AuthenticationRequest request,
-            HttpServletResponse response
-    ) {
-        return ResponseEntity.ok(service.authenticate(request, response));
+    @Override
+    public ResponseEntity<AuthenticationResponse> authenticate(AuthenticationRequest authenticationRequest) {
+        return ResponseEntity.ok(service.authenticate(authenticationRequest, httpServletResponse));
     }
 }
