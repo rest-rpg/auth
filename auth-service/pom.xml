@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.rest_rpg.auth</groupId>
         <artifactId>auth</artifactId>
-        <version>1.1.1-SNAPSHOT</version>
+        <version>1.1.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>auth-service</artifactId>
@@ -22,6 +22,11 @@
             <groupId>com.rest_rpg.auth</groupId>
             <artifactId>auth-starter</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.rest_rpg.common</groupId>
+            <artifactId>common</artifactId>
+            <version>${rest_rpg.common.version}</version>
         </dependency>
 
         <dependency>
