@@ -37,7 +37,7 @@ public class SecurityConfiguration {
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**", "/user/**", "/refresh-token/**", "/internal/**", "/swagger-ui/**", "/v3/api-docs/**", "/error").permitAll()
-                        .requestMatchers(HttpMethod.GET, "character/image/{characterArtwork}", "character/thumbnail/{characterArtwork}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "game/avatars/**").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS).permitAll()
                         .anyRequest().authenticated()
                 )
