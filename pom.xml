@@ -5,37 +5,28 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.3.4</version>
+		<version>3.5.11</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.rest_rpg.auth</groupId>
 	<artifactId>auth</artifactId>
-	<version>1.1.4-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>pom</packaging>
 	<name>auth</name>
 	<description>auth</description>
-	<url/>
-	<licenses>
-		<license/>
-	</licenses>
-	<developers>
-		<developer/>
-	</developers>
+
 	<modules>
 		<module>auth-service</module>
         <module>auth-starter</module>
     </modules>
-	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
-	</scm>
+
 	<properties>
 		<java.version>17</java.version>
+		<spring-cloud.version>2025.0.0</spring-cloud.version>
 
-		<rest_rpg.user.version>1.0.3-SNAPSHOT</rest_rpg.user.version>
-		<rest_rpg.common.version>1.0.0-SNAPSHOT</rest_rpg.common.version>
+		<rest_rpg.user.version>1.0.0</rest_rpg.user.version>
+		<rest_rpg.common.version>1.0.2</rest_rpg.common.version>
+		<auth.api.version>1.0.1</auth.api.version>
 
 		<lombok.version>1.18.34</lombok.version>
 		<jsonwebtoken.version>0.11.5</jsonwebtoken.version>
@@ -44,6 +35,19 @@
 
 		<openapi-generator-maven-plugin.version>6.6.0</openapi-generator-maven-plugin.version>
 	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -52,4 +56,18 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
+
+	<distributionManagement>
+		<repository>
+			<id>nexus</id>
+			<url>https://nexus.ms-repos.com/repository/maven-releases/</url>
+		</repository>
+	</distributionManagement>
+
+	<repositories>
+		<repository>
+			<id>nexus</id>
+			<url>https://nexus.ms-repos.com/repository/maven-releases/</url>
+		</repository>
+	</repositories>
 </project>

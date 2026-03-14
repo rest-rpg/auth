@@ -6,22 +6,21 @@
     <parent>
         <groupId>com.rest_rpg.auth</groupId>
         <artifactId>auth</artifactId>
-        <version>1.1.4-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
 
-    <groupId>com.rest_rpg.auth</groupId>
     <artifactId>auth-starter</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>com.rest_rpg.user</groupId>
-            <artifactId>user-feign</artifactId>
-            <version>${rest_rpg.user.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
+            <groupId>com.rest_rpg.common</groupId>
+            <artifactId>feign</artifactId>
+            <version>${rest_rpg.common.version}</version>
         </dependency>
 
         <dependency>

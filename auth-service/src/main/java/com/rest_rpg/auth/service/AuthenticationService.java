@@ -1,15 +1,15 @@
 package com.rest_rpg.auth.service;
 
+import com.ms.auth.model.AuthenticationRequest;
+import com.ms.auth.model.AuthenticationResponse;
+import com.ms.user.model.UserWithPassword;
 import com.rest_rpg.auth.exception.AuthException;
 import com.rest_rpg.auth.starter.service.JwtService;
-import com.rest_rpg.user.api.model.UserWithPassword;
-import com.rest_rpg.user.feign.UserInternalClient;
+import com.rest_rpg.common.feign.user.UserInternalClient;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.openapitools.model.AuthenticationRequest;
-import org.openapitools.model.AuthenticationResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -49,16 +49,16 @@ public class AuthenticationService {
 
     private AuthenticationResponse createJwtResponse(@NotNull UserWithPassword user,
                                                      @NotNull HttpServletResponse response) {
-        var jwtToken = jwtService.generateToken(user.username());
+        var jwtToken = jwtService.generateToken(user.getUsername());
 
         sendRefreshToken(user, response);
 
-        return new AuthenticationResponse(user.username(), jwtToken, user.role().toString());
+        return new AuthenticationResponse(user.getUsername(), jwtToken, user.getRole().toString());
     }
 
     private void sendRefreshToken(@NotNull UserWithPassword user,
                                   @NotNull HttpServletResponse response) {
-        ResponseCookie springCookie = refreshTokenService.createRefreshToken(user.id());
+        ResponseCookie springCookie = refreshTokenService.createRefreshToken(user.getId());
         response.setHeader(HttpHeaders.SET_COOKIE, springCookie.toString());
     }
 }

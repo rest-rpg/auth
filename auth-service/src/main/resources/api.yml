@@ -59,7 +59,7 @@ paths:
       parameters:
         - name: jwt
           in: cookie
-          required: true
+          required: false
           description: Jwt cookie
           schema:
             type: string

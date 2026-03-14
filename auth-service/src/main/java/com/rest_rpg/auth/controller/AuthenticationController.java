@@ -1,11 +1,11 @@
 package com.rest_rpg.auth.controller;
 
+import com.ms.auth.api.AuthenticationApi;
+import com.ms.auth.model.AuthenticationRequest;
+import com.ms.auth.model.AuthenticationResponse;
 import com.rest_rpg.auth.service.AuthenticationService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.openapitools.api.AuthenticationApi;
-import org.openapitools.model.AuthenticationRequest;
-import org.openapitools.model.AuthenticationResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RestController;
