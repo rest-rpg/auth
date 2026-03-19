@@ -1,19 +1,19 @@
 package com.rest_rpg.auth.service;
 
+import com.ms.auth.model.AuthenticationResponse;
+import com.ms.user.model.UserLite;
 import com.rest_rpg.auth.exception.JwtExpiredException;
 import com.rest_rpg.auth.exception.RefreshTokenNotFoundException;
 import com.rest_rpg.auth.starter.config.TokenProperties;
 import com.rest_rpg.auth.model.RefreshToken;
 import com.rest_rpg.auth.repository.RefreshTokenRepo;
 import com.rest_rpg.auth.starter.service.JwtService;
-import com.rest_rpg.user.api.model.UserLite;
-import com.rest_rpg.user.feign.UserInternalClient;
+import com.rest_rpg.common.feign.user.UserInternalClient;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.openapitools.model.AuthenticationResponse;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -36,9 +36,9 @@ public class RefreshTokenService {
         RefreshToken refreshToken = refreshTokenRepository.findByToken(jwt).orElseThrow(RefreshTokenNotFoundException::new);
         verifyExpiration(refreshToken);
         UserLite user = userInternalClient.getUserById(refreshToken.getUserId());
-        String accessToken = jwtService.generateToken(user.username());
+        String accessToken = jwtService.generateToken(user.getUsername());
 
-        return new AuthenticationResponse(user.username(), accessToken, user.role().toString());
+        return new AuthenticationResponse(user.getUsername(), accessToken, user.getRole().toString());
     }
 
     public ResponseCookie logout(@NotEmpty String jwt) {
@@ -57,7 +57,7 @@ public class RefreshTokenService {
                 .build();
     }
 
-    public ResponseCookie createRefreshToken(long userId) {
+    public ResponseCookie createRefreshToken(UUID userId) {
         var refreshToken = refreshTokenRepository.findByUserId(userId).orElse(
                 RefreshToken.builder().userId(userId).build()
         );

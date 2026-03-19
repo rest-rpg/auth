@@ -1,8 +1,8 @@
 package com.rest_rpg.auth.starter.config;
 
+import com.ms.user.model.UserWithPassword;
 import com.rest_rpg.auth.starter.model.UserAuth;
-import com.rest_rpg.user.api.model.UserWithPassword;
-import com.rest_rpg.user.feign.UserInternalClient;
+import com.rest_rpg.common.feign.user.UserInternalClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,14 +24,13 @@ public class ApplicationConfig {
     public UserDetailsService userDetailsService() {
         return username -> {
             UserWithPassword user = userInternalClient.getUserByUsername(username);
-            return new UserAuth(user.id(), user.username(), user.password(), user.email(), user.enabled(), user.role());
+            return new UserAuth(user.getId(), user.getUsername(), user.getPassword(), user.getEmail(), user.getEnabled(), user.getRole());
         };
     }
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService());
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userDetailsService());
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
